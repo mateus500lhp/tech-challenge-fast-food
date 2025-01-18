@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
-from database import Base
-class CouponModel(Base):
+from app.adapters.driven.models.base_model import BaseModel
+
+class CouponModel(BaseModel):
     __tablename__ = "coupons"
 
     id = Column(Integer, primary_key=True, index=True)

@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
+
+from app.adapters.driven.models.base_model import BaseModel
 from database import Base
 
-class OrderItemModel(Base):
+class OrderItemModel(BaseModel):
     __tablename__ = "order_items"
 
     id = Column(Integer, primary_key=True, index=True)

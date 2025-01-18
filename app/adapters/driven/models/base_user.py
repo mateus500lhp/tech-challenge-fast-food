@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Enum
-from app.shared.enums.user_type import UserType
-from database import Base
 
-class BaseUserModel(Base):
+from app.adapters.driven.models.base_model import BaseModel
+from app.shared.enums.user_type import UserType
+
+class BaseUserModel(BaseModel):
     __tablename__ = "base_users"
 
     id = Column(Integer, primary_key=True, index=True)

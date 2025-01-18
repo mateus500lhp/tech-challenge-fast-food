@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Float, Enum
+from app.adapters.driven.models.base_model import BaseModel
 from app.shared.enums.categorys import CategoryEnum
-from database import Base
-class ProductModel(Base):
+
+class ProductModel(BaseModel):
     __tablename__ = "product"
 
     id = Column(Integer, primary_key=True, index=True)

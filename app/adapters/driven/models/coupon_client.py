@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from app.adapters.driven.models.base_model import BaseModel
 
-class ClientCouponAssociationModel(Base):
+
+class ClientCouponAssociationModel(BaseModel):
     __tablename__ = "client_coupons"
 
     client_id = Column(Integer, ForeignKey("clients.id"), primary_key=True)

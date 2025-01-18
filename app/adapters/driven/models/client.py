@@ -1,13 +1,15 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from app.adapters.driven.models.base_user import BaseUserModel
-from app.shared.enums.user_type import UserType
+from app.adapters.driven.models import BaseUserModel
 
 class ClientModel(BaseUserModel):
     __tablename__ = "clients"
+    __mapper_args__ = {
+        "polymorphic_identity": "client",
+    }
 
     id = Column(Integer, ForeignKey("base_users.id"), primary_key=True)
-    user_type = UserType.CLIENT.value
+
 
     # Relações com cupons
     coupons_association = relationship("ClientCouponAssociationModel", back_populates="client")

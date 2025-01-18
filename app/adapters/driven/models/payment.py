@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum, DateTime, Float
 from sqlalchemy.orm import relationship
-from app.shared.enums.payment_status import PaymentStatus
-from database import Base
 
-class PaymentModel(Base):
+from app.adapters.driven.models.base_model import BaseModel
+from app.shared.enums.payment_status import PaymentStatus
+
+class PaymentModel(BaseModel):
     __tablename__ = "payments"
 
     id = Column(Integer, primary_key=True, index=True)
