@@ -1,4 +1,6 @@
+from sqlalchemy import Column, Integer, String, Float
 from database import Base
+
 class CouponModel(Base):
     __tablename__ = 'coupon'
 
