@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from app.adapters.driven.repositories.base_user import BaseUserModel
+from app.adapters.driven.models.base_user import BaseUserModel
 from app.shared.enums.user_type import UserType
 
 class ClientModel(BaseUserModel):

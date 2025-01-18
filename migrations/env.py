@@ -8,7 +8,7 @@ from sqlalchemy import engine_from_config, pool
 
 # 1) Importa o seu Base e models, para o Alembic saber quais tabelas existem
 from database import Base
-from app.adapters.driven import repositories
+from app.adapters.driven import models
 
 # 3) Obtemos a configuração do Alembic
 config = context.config

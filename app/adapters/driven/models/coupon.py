@@ -10,7 +10,7 @@ class CouponModel(Base):
     max_discount = Column(Float,default=0)
 
     clients_association = relationship("ClientCouponAssociationModel", back_populates="coupon")
-    clients = relationship("Client", secondary="client_coupons", back_populates="coupons")
+    clients = relationship("ClientModel", secondary="client_coupons", back_populates="coupons")
 
     def __repr__(self):
         return f"<CouponModel(code={self.hash}, discount_percentage={self.discount_percentage})>"
