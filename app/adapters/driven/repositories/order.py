@@ -12,6 +12,7 @@ class OrderModel(Base):
 
     # client = relationship("ClientModel", back_populates="orders")
     items = relationship("OrderItemModel", back_populates="order")
+    payment = relationship("PaymentModel", back_populates="order", uselist=False)
     coupon = relationship("CouponModel")
 
     def __repr__(self):
