@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="fix name client">
-      <change afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/coupon_client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/shared/enums/payment_status.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/shared/enums/user_type.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FastFood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FastFood.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/base_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/base_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/coupon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/item.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/item.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/order.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/payment.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/payment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entrypoint.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/env.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,15 +25,16 @@
       <list>
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -52,11 +50,9 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;FastAPI.FastFood.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/luanl/PycharmProjects/tech-challenge-fast-food/app/adapters/driven/repositories&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;migrations-adjusts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -66,18 +62,6 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driven\repositories" />
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared" />
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\enums" />
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driver\controllers" />
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\tests" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration name="FastFood" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
@@ -98,7 +82,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.180" />
+        <option value="bundled-python-sdk-85c76a3b01b3-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.180" />
       </set>
     </attachedChunks>
   </component>
@@ -113,43 +98,11 @@
       <workItem from="1736446642853" duration="1214000" />
       <workItem from="1736447877940" duration="9462000" />
       <workItem from="1736512749509" duration="5586000" />
-      <workItem from="1737207808560" duration="10084000" />
     </task>
-    <task id="LOCAL-00001" summary="Arquitetura hexagonal init">
-      <option name="closed" value="true" />
-      <created>1737211861893</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1737211861893</updated>
-    </task>
-    <task id="LOCAL-00002" summary="model coupon, item, order, product">
-      <option name="closed" value="true" />
-      <created>1737215397008</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1737215397008</updated>
-    </task>
-    <task id="LOCAL-00003" summary="fix name client">
-      <option name="closed" value="true" />
-      <created>1737215509150</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1737215509150</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Arquitetura hexagonal init" />
-    <MESSAGE value="model coupon, item, order, product" />
-    <MESSAGE value="fix name client" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix name client" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FastFood$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1736457911060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
