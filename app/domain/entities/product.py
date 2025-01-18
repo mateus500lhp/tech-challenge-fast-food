@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 from app.shared.enums.categorys import CategoryEnum
@@ -11,3 +11,4 @@ class Product:
     price: float
     category: CategoryEnum
     quantity_available: int = 0
+    id: Optional[int] = field(default=1)

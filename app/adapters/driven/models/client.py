@@ -8,8 +8,13 @@ class ClientModel(BaseUserModel):
 
     id = Column(Integer, ForeignKey("base_users.id"), primary_key=True)
     user_type = UserType.CLIENT.value
+
+    # Relações com cupons
     coupons_association = relationship("ClientCouponAssociationModel", back_populates="client")
     coupons = relationship("CouponModel", secondary="client_coupons", back_populates="clients")
+
+    # Relação 1:N com OrderModel
+    orders = relationship("OrderModel", back_populates="client")
 
     def __repr__(self):
         return f"<Client(name={self.name}, email={self.email}, cpf={self.cpf})>"

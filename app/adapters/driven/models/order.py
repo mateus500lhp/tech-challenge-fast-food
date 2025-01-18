@@ -6,11 +6,13 @@ class OrderModel(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    # client_id = Column(Integer, ForeignKey("client_id.id"))
+    client_id = Column(Integer, ForeignKey("clients.id"))
     status = Column(Enum(OrderStatus), default=OrderStatus.RECEIVED)
     coupon_id = Column(Integer, ForeignKey("coupons.id"), nullable=True)
 
-    # client = relationship("ClientModel", back_populates="orders")
+    # Lado 'N' da relação 1:N: cada Order pertence a um Client
+    client = relationship("ClientModel", back_populates="orders")
+
     items = relationship("OrderItemModel", back_populates="order")
     payment = relationship("PaymentModel", back_populates="order", uselist=False)
     coupon = relationship("CouponModel")

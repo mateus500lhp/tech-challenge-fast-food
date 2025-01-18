@@ -10,6 +10,7 @@ from app.adapters.driven.repositories.product import ProductRepository
 from app.domain.entities.product import Product
 from app.domain.services.products.create_product_service import CreateProductService
 from app.domain.services.products.list_products_service import ListProductsService
+from app.shared.enums.categorys import CategoryEnum
 from database import get_db_session
 
 router = APIRouter()
@@ -19,7 +20,7 @@ class ProductIn(BaseModel):
     name: str
     description: str | None
     price: float
-    category: str
+    category: CategoryEnum
     quantity_available: int = 0
 
 class ProductOut(BaseModel):
@@ -27,7 +28,7 @@ class ProductOut(BaseModel):
     name: str
     description: str | None
     price: float
-    category: str
+    category: CategoryEnum
     quantity_available: int
 
 @router.get("/products", response_model=List[ProductOut])
@@ -52,13 +53,12 @@ def list_products(db: Session = Depends(get_db_session)):
 def create_product(product_in: ProductIn, db: Session = Depends(get_db_session)):
     repo = ProductRepository(db)
     use_case = CreateProductService(repo)
-    print(product_in)
     # Converte Pydantic -> Domain
     product = Product(
         name=product_in.name,
         description=product_in.description,
         price=product_in.price,
-        category=product_in.category,
+        category=product_in.category.value,
         quantity_available=product_in.quantity_available
     )
 
