@@ -7,7 +7,7 @@ class OrderItemModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     order_id = Column(Integer, ForeignKey("orders.id"))
-    product_id = Column(Integer, ForeignKey("products.id"))
+    product_id = Column(Integer, ForeignKey("product.id"))
     quantity = Column(Integer, default=1)
     price = Column(Float)  # O preço do produto no momento do pedido
 

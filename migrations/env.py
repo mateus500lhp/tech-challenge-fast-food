@@ -1,23 +1,25 @@
 import os
 import sys
 from logging.config import fileConfig
+from dotenv import load_dotenv
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 # 1) Importa o seu Base e models, para o Alembic saber quais tabelas existem
 from database import Base
-import app.adapters.driven.repositories.coupon
+from app.adapters.driven import repositories
 
 # 3) Obtemos a configuração do Alembic
 config = context.config
+load_dotenv()
 
 # 4) Lê as variáveis do ambiente (que podem vir do .env)
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "mysecretpassword")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
+DB_NAME = os.getenv("DB_NAME", "fastfood")
 
 # 5) Monta a URL do banco dinamicamente
 database_url = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
