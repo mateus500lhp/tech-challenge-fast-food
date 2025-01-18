@@ -6,13 +6,13 @@ class OrderModel(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, index=True)
-    cliente_id = Column(Integer, ForeignKey("customers.id"))
+    client_id = Column(Integer, ForeignKey("client_id.id"))
     status = Column(Enum(OrderStatus), default=OrderStatus.RECEIVED)
     coupon_id = Column(Integer, ForeignKey("coupons.id"), nullable=True)
 
-    cliente = relationship("ClienteModel", back_populates="orders")
+    client = relationship("ClientModel", back_populates="orders")
     items = relationship("OrderItemModel", back_populates="order")
     coupon = relationship("CouponModel")
 
     def __repr__(self):
-        return f"<OrderModel(customer_id={self.cliente_id}, status={self.status}, coupon={self.coupon})>"
+        return f"<OrderModel(customer_id={self.client_id}, status={self.status}, coupon={self.coupon})>"
