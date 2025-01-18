@@ -1,12 +1,15 @@
 FROM python:3.12.3-slim
 
-WORKDIR /
+WORKDIR /app
 
-COPY requirements.txt .
+# Copiar somente o arquivo requirements.txt primeiro para aproveitar o cache do Docker
+COPY requirements.txt /app/
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar as dependências
+RUN pip install -r requirements.txt
 
-COPY . .
+# Copiar o restante dos arquivos
+COPY . /app/
 
 RUN chmod +x entrypoint.sh
 
