@@ -1,8 +1,6 @@
-# app/adapters/inbound/controllers/product_controller.py
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-
 
 from pydantic import BaseModel
 

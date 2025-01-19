@@ -1,8 +1,8 @@
-"""start
+"""init
 
-Revision ID: ecf2d7eb3a1f
+Revision ID: 7a0c292a3d4d
 Revises: 
-Create Date: 2025-01-18 18:49:57.026186
+Create Date: 2025-01-19 02:41:45.459980
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'ecf2d7eb3a1f'
+revision: str = '7a0c292a3d4d'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,9 +24,12 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
-    sa.Column('cpf', sa.String(), nullable=False),
+    sa.Column('cpf', sa.String(length=11), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
     sa.Column('user_type', sa.Enum('CLIENT', 'ADMIN', name='usertype'), nullable=False),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
     sa.UniqueConstraint('email')
@@ -37,6 +40,10 @@ def upgrade() -> None:
     sa.Column('hash', sa.String(), nullable=True),
     sa.Column('discount_percentage', sa.Float(), nullable=True),
     sa.Column('max_discount', sa.Float(), nullable=True),
+    sa.Column('expires_at', sa.Date(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('hash')
     )
@@ -48,6 +55,9 @@ def upgrade() -> None:
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('category', sa.Enum('LUNCH', 'SIDES', 'DRINK', 'DESSERT', name='categoryenum'), nullable=False),
     sa.Column('quantity_available', sa.Integer(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_product_id'), 'product', ['id'], unique=False)
@@ -59,6 +69,9 @@ def upgrade() -> None:
     op.create_table('client_coupons',
     sa.Column('client_id', sa.Integer(), nullable=False),
     sa.Column('coupon_id', sa.Integer(), nullable=False),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['client_id'], ['clients.id'], ),
     sa.ForeignKeyConstraint(['coupon_id'], ['coupons.id'], ),
     sa.PrimaryKeyConstraint('client_id', 'coupon_id')
@@ -68,6 +81,9 @@ def upgrade() -> None:
     sa.Column('client_id', sa.Integer(), nullable=True),
     sa.Column('status', sa.Enum('RECEIVED', 'IN_PROGRESS', 'READY', 'COMPLETED', name='orderstatus'), nullable=True),
     sa.Column('coupon_id', sa.Integer(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['client_id'], ['clients.id'], ),
     sa.ForeignKeyConstraint(['coupon_id'], ['coupons.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -79,6 +95,9 @@ def upgrade() -> None:
     sa.Column('product_id', sa.Integer(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=True),
     sa.Column('price', sa.Float(), nullable=True),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['product.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -92,6 +111,9 @@ def upgrade() -> None:
     sa.Column('payment_date', sa.DateTime(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('amount', sa.Float(), nullable=False),
+    sa.Column('active', sa.Boolean(), nullable=False),
+    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
+    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

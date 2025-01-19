@@ -1,11 +1,13 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from app.adapters.driven.models import BaseUserModel
+from app.shared.enums.user_type import UserType
+
 
 class ClientModel(BaseUserModel):
     __tablename__ = "clients"
     __mapper_args__ = {
-        "polymorphic_identity": "client",
+        "polymorphic_identity": UserType.CLIENT,
     }
 
     id = Column(Integer, ForeignKey("base_users.id"), primary_key=True)
