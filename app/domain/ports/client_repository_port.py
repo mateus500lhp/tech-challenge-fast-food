@@ -41,9 +41,8 @@ class ClientRepositoryPort(ABC):
         pass
 
     @abstractmethod
-    def inactivate(self, client_id: int) -> Optional[Client]:
+    def find_coupons_by_client_id(self, id):
         """
-        Marca o Client como inativo (active=False).
-        Retorna o Client atualizado ou None se não encontrado.
-        """
+         Retorna todos os cupons ativos e não expirados vinculados a um cliente.
+         """
         pass
