@@ -45,7 +45,7 @@ class ProductRepository(ProductRepositoryPort):
         )
 
     def find_all(self) -> List[Product]:
-        product_models = self.db_session.query(ProductModel).all()
+        product_models = self.db_session.query(ProductModel).filter(ProductModel.active == True).all()
         return [
             Product(
                 id=m.id,
@@ -60,7 +60,7 @@ class ProductRepository(ProductRepositoryPort):
 
     def find_by_category(self, category: str) -> List[Product]:
         product_models = self.db_session.query(ProductModel).filter(
-            ProductModel.category == category
+            ProductModel.category == category and ProductModel.active == True
         ).all()
         return [
             Product(
@@ -96,6 +96,9 @@ class ProductRepository(ProductRepositoryPort):
 
     def delete(self, product_id: int) -> None:
         product_model = self.db_session.query(ProductModel).get(product_id)
+        if not product_model.active:
+            raise ValueError("Product inactive")
         if product_model:
-            self.db_session.delete(product_model)
+            product_model.active = False
             self.db_session.commit()
+            self.db_session.refresh(product_model)
