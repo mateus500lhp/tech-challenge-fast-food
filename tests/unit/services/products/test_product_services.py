@@ -168,6 +168,37 @@ def test_update_product_service_negative_price(mock_repository):
     mock_repository.update.assert_not_called()
 
 
+def test_update_product_service_inactive(mock_repository):
+    service = UpdateProductService(mock_repository)
+
+    # Simula que existe um produto, mas que está inativo
+    existing_product = Product(
+        id=1,
+        name="Produto Inativo",
+        description="Desc",
+        price=100.0,
+        category="CatA",
+        quantity_available=10
+    )
+    mock_repository.find_by_id.return_value = existing_product
+
+    # Simula que o repositório lança uma exceção por produto inativo na hora do update
+    mock_repository.update.side_effect = ValueError("Product inactive")
+
+    new_data = Product(
+        name="Tentativa de update inativa",
+        description="Nova Desc",
+        price=150.0,
+        category="CatB",
+        quantity_available=5
+    )
+
+    with pytest.raises(ValueError) as exc:
+        service.execute(product_id=1, new_data=new_data)
+
+    assert "Product inactive" in str(exc.value)
+
+
 # ----------------------------------------------------------------------------
 # DELETE PRODUCT SERVICE
 # ----------------------------------------------------------------------------
@@ -202,6 +233,29 @@ def test_delete_product_service_not_found(mock_repository):
 
     assert "Product not found" in str(exc.value)
     mock_repository.delete.assert_not_called()
+
+
+def test_delete_product_service_inactive(mock_repository):
+    service = DeleteProductService(mock_repository)
+
+    # Simula a existência de um produto inativo
+    existing_product = Product(
+        id=1,
+        name="Produto Inativo",
+        description="Desc",
+        price=10.0,
+        category="CatA",
+        quantity_available=1
+    )
+    mock_repository.find_by_id.return_value = existing_product
+
+    # Simula que o repositório lança ValueError ao tentar deletar um produto inativo
+    mock_repository.delete.side_effect = ValueError("Product inactive")
+
+    with pytest.raises(ValueError) as exc:
+        service.execute(1)
+
+    assert "Product inactive" in str(exc.value)
 
 
 # ----------------------------------------------------------------------------
