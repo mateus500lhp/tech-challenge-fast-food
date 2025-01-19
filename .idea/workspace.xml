@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="product apis finished">
-      <change afterPath="$PROJECT_DIR$/app/domain/services/products/delete_product_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/domain/services/products/update_product_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FastFood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FastFood.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/product_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/product_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/ports/products_repository_port.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/ports/products_repository_port.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/services/products/list_products_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/products/list_products_service.py" afterDir="false" />
-    </list>
+    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="product apis finished" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,18 +27,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "mateus500lhp"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mateus500lhp&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/mateus500lhp/tech-challenge-fast-food.git",
-    "accountId": "cd679efd-52d0-47b8-b14e-4ca7d7d4cef4"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/mateus500lhp/tech-challenge-fast-food.git&quot;,
+    &quot;accountId&quot;: &quot;cd679efd-52d0-47b8-b14e-4ca7d7d4cef4&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -143,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737228215927</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="product apis finished">
+      <option name="closed" value="true" />
+      <created>1737295631087</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1737295631087</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
