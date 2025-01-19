@@ -1,0 +1,26 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 80%      # Cobertura mínima requerida
+        threshold: 1%    # Margem de tolerância
+        base: auto       # Compara com a base automaticamente
+
+comment:
+  layout: "diff, flags, files"  # Formato do comentário no PR
+
+flags:
+  unittests:
+    paths:
+      - tests/unit/
+  integrationtests:
+    paths:
+      - tests/integration/
+
+# Opcional: Bloquear anotações de check runs
+github_checks:
+  annotations: true
+
+# Opcional: Notificações imediatas
+notify:
+  wait_for_ci: false
