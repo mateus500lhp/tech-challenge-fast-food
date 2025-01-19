@@ -96,3 +96,4 @@ gunicorn.pid
 # Se houver pastas específicas da sua estrutura FastAPI que não devem ser versionadas, adicione aqui.
 .idea
 idea/
+workspace.xml
