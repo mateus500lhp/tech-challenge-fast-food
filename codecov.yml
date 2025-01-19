@@ -1,0 +1,7 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 80%    # valor mínimo de cobertura exigido
+        threshold: 1%  # margem de tolerância para atingir o alvo
+        base: auto     # compara com a base automaticamente (opcional)
