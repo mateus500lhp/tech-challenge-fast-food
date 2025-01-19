@@ -2,6 +2,25 @@ coverage:
   status:
     project:
       default:
-        target: 80%    # valor mínimo de cobertura exigido
-        threshold: 1%  # margem de tolerância para atingir o alvo
-        base: auto     # compara com a base automaticamente (opcional)
+        target: 80%      # Cobertura mínima requerida
+        threshold: 1%    # Margem de tolerância
+        base: auto       # Compara com a base automaticamente
+
+comment:
+  layout: "diff, flags, files"  # Formato do comentário no PR
+
+flags:
+  unittests:
+    paths:
+      - tests/unit/
+  integrationtests:
+    paths:
+      - tests/integration/
+
+# Opcional: Bloquear anotações de check runs
+github_checks:
+  annotations: true
+
+# Opcional: Notificações imediatas
+notify:
+  wait_for_ci: false
