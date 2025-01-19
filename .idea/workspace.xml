@@ -4,11 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="Desativando produto">
-      <change afterPath="$PROJECT_DIR$/tests/unit/repositories/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/repositories/products/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/unit/repositories/products/test_product_repositories.py" afterDir="false" />
+    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="apis de client">
+      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/services/clients/identify_client_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/services/clients/update_client_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/shared/handles/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/shared/handles/jwt_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/FastFood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FastFood.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client_schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/entities/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/entities/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/ports/client_repository_port.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/ports/client_repository_port.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/services/clients/create_client_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/clients/create_client_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/services/clients/list_client_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/clients/list_client_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,18 +44,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;mateus500lhp&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/mateus500lhp/tech-challenge-fast-food.git&quot;,
-    &quot;accountId&quot;: &quot;cd679efd-52d0-47b8-b14e-4ca7d7d4cef4&quot;
-  }
-}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -58,11 +61,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "FastAPI.FastFood.executor": "Debug",
-    "Python tests.Python tests for test_product_controllers.test_list_products_empty.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feature/produtos-desativado",
-    "last_opened_file_path": "C:/Users/mateu/PycharmProjects/FastFood/tests/unit/repositories/products",
+    "git-widget-placeholder": "client__services",
+    "last_opened_file_path": "C:/Users/luanl/PycharmProjects/tech-challenge-fast-food/app/domain/services/clients",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,21 +77,20 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\mateu\PycharmProjects\FastFood\tests\unit\repositories\products" />
-      <recent name="C:\Users\mateu\PycharmProjects\FastFood\tests\integration\controllers\products" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\services\clients" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\validates" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\ports" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driven\repositories" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\mateu\PycharmProjects\FastFood\tests\unit" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\handles" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\repositories" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\models" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\repositories\products" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\domain\services\products" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for test_product_controllers.test_list_products_empty">
+  <component name="RunManager">
     <configuration name="FastFood" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
       <module name="FastFood" />
@@ -104,33 +106,11 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_product_controllers.test_list_products_empty" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="FastFood" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/integration/controllers/products" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_product_controllers.test_list_products_empty&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python tests.Python tests for test_product_controllers.test_list_products_empty" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.180" />
-        <option value="bundled-python-sdk-85c76a3b01b3-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.180" />
+        <option value="bundled-python-sdk-5a2391486177-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13763.11" />
       </set>
     </attachedChunks>
   </component>
@@ -145,7 +125,7 @@
       <workItem from="1736446642853" duration="1214000" />
       <workItem from="1736447877940" duration="9462000" />
       <workItem from="1736512749509" duration="5586000" />
-      <workItem from="1737301373248" duration="5874000" />
+      <workItem from="1737297669606" duration="12641000" />
     </task>
     <task id="LOCAL-00001" summary="Migrations adjusts">
       <option name="closed" value="true" />
@@ -163,95 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737228215927</updated>
     </task>
-    <task id="LOCAL-00003" summary="product apis finished">
+    <task id="LOCAL-00003" summary="apis de client">
       <option name="closed" value="true" />
-      <created>1737295631087</created>
+      <created>1737257270120</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1737295631087</updated>
+      <updated>1737257270120</updated>
     </task>
-    <task id="LOCAL-00004" summary="workspace">
-      <option name="closed" value="true" />
-      <created>1737301484781</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1737301484781</updated>
-    </task>
-    <task id="LOCAL-00005" summary="testes">
-      <option name="closed" value="true" />
-      <created>1737304876511</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1737304876511</updated>
-    </task>
-    <task id="LOCAL-00006" summary="ci">
-      <option name="closed" value="true" />
-      <created>1737305066574</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1737305066574</updated>
-    </task>
-    <task id="LOCAL-00007" summary="ci">
-      <option name="closed" value="true" />
-      <created>1737305213475</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1737305213475</updated>
-    </task>
-    <task id="LOCAL-00008" summary="requirements">
-      <option name="closed" value="true" />
-      <created>1737305371108</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1737305371108</updated>
-    </task>
-    <task id="LOCAL-00009" summary="ci">
-      <option name="closed" value="true" />
-      <created>1737306223696</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1737306223696</updated>
-    </task>
-    <task id="LOCAL-00010" summary="ci">
-      <option name="closed" value="true" />
-      <created>1737306657172</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1737306657172</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Adicionar configuração do Codecov para cobertura de projeto">
-      <option name="closed" value="true" />
-      <created>1737306911586</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1737306911586</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Adicionar configuração do Codecov para cobertura de projeto">
-      <option name="closed" value="true" />
-      <created>1737307211401</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1737307211401</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Desativando produto">
-      <option name="closed" value="true" />
-      <created>1737308930874</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1737308930874</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -260,18 +160,27 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Migrations adjusts" />
     <MESSAGE value="models" />
-    <MESSAGE value="product apis finished" />
-    <MESSAGE value="workspace" />
-    <MESSAGE value="testes" />
-    <MESSAGE value="requirements" />
-    <MESSAGE value="ci" />
-    <MESSAGE value="Adicionar configuração do Codecov para cobertura de projeto" />
-    <MESSAGE value="Desativando produto" />
-    <option name="LAST_COMMIT_MESSAGE" value="Desativando produto" />
+    <MESSAGE value="apis de client" />
+    <option name="LAST_COMMIT_MESSAGE" value="apis de client" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/domain/services/clients/update_client_service.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/app/domain/ports/client_repository_port.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/tech_challenge_fast_food$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737256919273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/FastFood$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737222563102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/FastFood$.coverage" NAME=" Coverage Results" MODIFIED="1737302811873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/integration/controllers/products" />
+    <SUITE FILE_PATH="coverage/tech_challenge_fast_food$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737310754738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

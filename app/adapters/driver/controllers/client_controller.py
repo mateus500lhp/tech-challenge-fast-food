@@ -2,16 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from sqlalchemy.orm import Session
 
-from pydantic import EmailStr
-
 from app.adapters.driver.controllers.client_schemas import (
     ClientIn,
-    ClientOut
+    ClientOut, ClientIdentifyOut, ClientUpdateIn, ClientsOut
 )
 from app.adapters.driven.repositories.client import ClientRepository
 from app.domain.entities.client import Client
 from app.domain.services.clients.create_client_service import CreateClientService
+from app.domain.services.clients.identify_client_service import IdentifyClientService
 from app.domain.services.clients.list_client_service import ListClientsService
+from app.domain.services.clients.update_client_service import UpdateClientService
 from database import get_db_session
 
 router = APIRouter()
@@ -35,8 +35,9 @@ router = APIRouter()
 )
 def create_client(client_in: ClientIn, db: Session = Depends(get_db_session)):
     service = CreateClientService(ClientRepository(db))
-
-    # Monta a entidade de domínio
+    """
+        Cria um cliente no sistema
+        """
     client = Client(
         id=None,
         name=client_in.name,
@@ -58,15 +59,18 @@ def create_client(client_in: ClientIn, db: Session = Depends(get_db_session)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.get("/clients", response_model=List[ClientOut])
+@router.get("/clients", response_model=List[ClientsOut])
 def list_clients(db: Session = Depends(get_db_session)):
+    """
+        Lista todos os clientes cadastrados no sistema
+    """
     repository = ClientRepository(db)
     service = ListClientsService(repository)
 
     clients = service.execute()
 
     return [
-        ClientOut(
+        ClientsOut(
             id=client.id,
             name=client.name,
             email=client.email,
@@ -78,73 +82,104 @@ def list_clients(db: Session = Depends(get_db_session)):
         for client in clients
     ]
 
-@router.get("/clients/cpf/{cpf}", response_model=ClientOut)
+@router.post(
+    "/clients/cpf/{cpf}",
+    response_model=ClientIdentifyOut,
+    status_code=status.HTTP_200_OK,
+    responses={
+        400: {
+            "description": "Bad Request",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "CPF não encontrado no sistema."
+                    }
+                }
+            },
+        },
+    },
+)
 def get_client_by_cpf(cpf: str, db: Session = Depends(get_db_session)):
     """
-    Busca um cliente pelo CPF.
+    Busca um cliente pelo CPF, incluindo seus cupons ativos e não expirados.
     """
     repository = ClientRepository(db)
-    client_entity = repository.find_by_cpf(cpf)
-    if not client_entity:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Client not found by CPF"
-        )
-    return ClientOut(
-        id=client_entity.id,
-        name=client_entity.name,
-        email=client_entity.email,
-        cpf=client_entity.cpf,
-        active=client_entity.active
-    )
+    service = IdentifyClientService(repository)
 
-@router.put("/clients/{client_id}", response_model=ClientOut)
-def update_client(client_id: int, client_in: ClientIn, db: Session = Depends(get_db_session)):
+    try:
+        client_with_coupons = service.execute(cpf)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+    return client_with_coupons
+@router.put("/clients/{cpf}", response_model=ClientOut)
+def update_client(cpf: str, client_in: ClientUpdateIn, db: Session = Depends(get_db_session)):
     """
     Atualiza os dados de um cliente.
     """
     repository = ClientRepository(db)
+    service = UpdateClientService(repository)
 
-    # Verifica se existe
-    existing = repository.find_by_id(client_id)
-    if not existing:
+    try:
+        updates = {key: value for key, value in client_in.dict(exclude_unset=True).items()}
+        updated_client = service.execute(cpf=cpf, updates=updates)
+
+        return ClientOut(
+            id=updated_client.id,
+            name=updated_client.name,
+            email=updated_client.email,
+            cpf=updated_client.cpf,
+            active=updated_client.active
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Client not found"
         )
 
-    # Atualiza os campos
-    updated_entity = Client(
-        id=client_id,
-        name=client_in.name,
-        email=client_in.email,
-        cpf=client_in.cpf,
-        password=client_in.password,
-        active=existing.active  # mantém o active existente
-    )
-
-    updated_client = repository.update(updated_entity)
-
-    return ClientOut(
-        id=updated_client.id,
-        name=updated_client.name,
-        email=updated_client.email,
-        cpf=updated_client.cpf,
-        active=updated_client.active
-    )
-
-@router.delete("/clients/{client_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_client(client_id: int, db: Session = Depends(get_db_session)):
+@router.delete("/clients/{cpf}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_client(cpf: str, db: Session = Depends(get_db_session)):
     """
-    Exclui fisicamente um cliente pelo ID.
+    Desativar o cliente pelo CPF.
     """
     repository = ClientRepository(db)
-    existing = repository.find_by_id(client_id)
-    if not existing:
+    service = UpdateClientService(repository)
+
+    try:
+        updates = {"active": False}
+        _ = service.execute(cpf=cpf, updates=updates)
+        return None
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Client not found"
         )
 
-    repository.delete(client_id)
-    return None
+# @router.delete("/clients/{cpf}", status_code=status.HTTP_204_NO_CONTENT)
+# def delete_client(client_id: int, db: Session = Depends(get_db_session)):
+#     """
+#     Desativar o cliente pelo CPF.
+#     """
+#     repository = ClientRepository(db)
+#     existing = repository.find_by_id(client_id)
+#     if not existing:
+#         raise HTTPException(
+#             status_code=status.HTTP_404_NOT_FOUND,
+#             detail="Client not found"
+#         )
+#
+#     repository.delete(client_id)
+#     return None

@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import List, Optional
 from sqlalchemy.orm import Session
-
+from app.adapters.driven.models import CouponModel, ClientCouponAssociationModel
 from app.adapters.driven.models.client import ClientModel
 from app.domain.entities.client import Client
 from app.domain.ports.client_repository_port import ClientRepositoryPort
@@ -29,7 +30,7 @@ class ClientRepository(ClientRepositoryPort):
             name=client_model.name,
             email=client_model.email,
             cpf=client_model.cpf,
-            password=client_model.password,
+            password=client_model.password
         )
 
     def find_by_id(self, client_id: int) -> Optional[Client]:
@@ -46,6 +47,7 @@ class ClientRepository(ClientRepositoryPort):
             email=client_model.email,
             cpf=client_model.cpf,
             password=client_model.password,
+            active=client_model.active,
         )
 
     def find_by_cpf(self, cpf: str) -> Optional[Client]:
@@ -66,6 +68,8 @@ class ClientRepository(ClientRepositoryPort):
             password=client_model.password,
             created_at=client_model.created_at,
             updated_at=client_model.updated_at,
+            user_type=client_model.user_type,
+            active=client_model.active,
         )
     def find_by_email(self, email: str) -> Optional[Client]:
         """
@@ -85,6 +89,7 @@ class ClientRepository(ClientRepositoryPort):
             password=client_model.password,
             created_at=client_model.created_at,
             updated_at=client_model.updated_at,
+            active=client_model.active,
         )
 
     def find_all(self) -> List[Client]:
@@ -101,6 +106,7 @@ class ClientRepository(ClientRepositoryPort):
                 password=m.password,
                 created_at=m.created_at,
                 updated_at=m.updated_at,
+                active=m.active,
             )
             for m in client_models
         ]
@@ -117,6 +123,7 @@ class ClientRepository(ClientRepositoryPort):
         client_model.email = client.email
         client_model.cpf = client.cpf
         client_model.password = client.password
+        client_model.active = client.active
 
         self.db_session.commit()
         self.db_session.refresh(client_model)
@@ -127,6 +134,9 @@ class ClientRepository(ClientRepositoryPort):
             email=client_model.email,
             cpf=client_model.cpf,
             password=client_model.password,
+            created_at=client_model.created_at,
+            updated_at=client_model.updated_at,
+            active=client_model.active,
         )
 
     def delete(self, client_id: int) -> None:
@@ -138,25 +148,24 @@ class ClientRepository(ClientRepositoryPort):
             self.db_session.delete(client_model)
             self.db_session.commit()
 
-    def inactivate(self, client_id: int) -> Optional[Client]:
+    def find_coupons_by_client_id(self, client_id: int):
         """
-        Marca o cliente como inativo (active = False).
-        Retorna o Client se encontrado, ou None se não encontrado.
+        Retorna todos os cupons ativos e não expirados vinculados a um cliente.
+
+        :param client_id: ID do cliente
+        :return: Lista de cupons não expirados e ativos
         """
-        client_model = self.db_session.query(ClientModel).get(client_id)
-        if not client_model:
-            return None  # ou poderia lançar um ValueError se preferir
+        current_date = datetime.utcnow()
 
-        client_model.active = False
-        self.db_session.commit()
-        self.db_session.refresh(client_model)
-
-        # Retorna a entidade de domínio com active=False
-        return Client(
-            id=client_model.id,
-            name=client_model.name,
-            email=client_model.email,
-            cpf=client_model.cpf,
-            password=client_model.password,
-            active=client_model.active
+        coupons = (
+            self.db_session.query(CouponModel)
+            .join(ClientCouponAssociationModel, CouponModel.id == ClientCouponAssociationModel.coupon_id)
+            .filter(
+                ClientCouponAssociationModel.client_id == client_id,
+                CouponModel.active == True,  # Cupons ativos
+                CouponModel.expires_at >= current_date  # Cupons não expirados
+            )
+            .all()
         )
+
+        return coupons

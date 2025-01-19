@@ -10,8 +10,6 @@ class CreateClientService:
     def normalize_and_validate_cpf(self,cpf: str) -> str:
         # remove não-dígitos
         digits = "".join(c for c in cpf if c.isdigit())
-        # faz checagens: length == 11, dígitos verificadores, etc.
-        # se falhar, lançar ValueError
         return digits
 
     def execute(self, client: Client) -> Client:

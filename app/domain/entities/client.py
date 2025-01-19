@@ -2,6 +2,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
+from sqlalchemy import Enum
+
+from app.shared.enums.user_type import UserType
+
+
 @dataclass
 class Client:
     id: Optional[int]
@@ -9,6 +14,8 @@ class Client:
     email: str
     cpf: str
     password: str
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    user_type: UserType = UserType.CLIENT
     active: bool = True
-    created_at: datetime = None
-    updated_at: datetime = None
+

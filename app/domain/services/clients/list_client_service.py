@@ -9,9 +9,4 @@ class ListClientsService:
     def execute(self) -> List[Client]:
         # Busca todos os clientes no repositório
         clients = self.client_repository.find_all()
-
-        # Formata o CPF antes de retornar
-        # for client in clients:
-        #     client.cpf = format_cpf(client.cpf)
-        #
         return clients
