@@ -58,6 +58,22 @@ class ProductRepository(ProductRepositoryPort):
             for m in product_models
         ]
 
+    def find_by_category(self, category: str) -> List[Product]:
+        product_models = self.db_session.query(ProductModel).filter(
+            ProductModel.category == category
+        ).all()
+        return [
+            Product(
+                id=m.id,
+                name=m.name,
+                description=m.description,
+                price=m.price,
+                category=m.category,
+                quantity_available=m.quantity_available
+            )
+            for m in product_models
+        ]
+
     def update(self, product: Product) -> Product:
         product_model = self.db_session.query(ProductModel).get(product.id)
         if not product_model:

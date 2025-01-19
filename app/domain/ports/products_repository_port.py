@@ -19,6 +19,11 @@ class ProductRepositoryPort(ABC):
         pass
 
     @abstractmethod
+    def find_by_category(self, category: str) -> List[Product]:
+        """Retorna um Product (ou None se não encontrado)."""
+        pass
+
+    @abstractmethod
     def find_all(self) -> List[Product]:
         """Lista todos os products."""
         pass

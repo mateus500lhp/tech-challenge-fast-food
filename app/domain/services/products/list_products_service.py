@@ -10,3 +10,11 @@ class ListProductsService:
 
     def execute(self) -> List[Product]:
         return self.product_repository.find_all()
+
+
+class ListProductsByCategoryService:
+    def __init__(self, product_repository: ProductRepositoryPort):
+        self.product_repository = product_repository
+
+    def execute(self, category: str) -> List[Product]:
+        return self.product_repository.find_by_category(category)
