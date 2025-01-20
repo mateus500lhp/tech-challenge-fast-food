@@ -12,7 +12,7 @@ def test_list_products_empty(mocker):
     Testa o endpoint GET /api/products quando não há produtos.
     """
     # Patch na referência usada no controlador
-    mock_repo = mocker.patch("app.adapters.driver.controllers.product_controller.ProductRepository")
+    mock_repo = mocker.patch("app.adapters.driver.controllers.product.product_controller.ProductRepository")
     mock_repo_instance = mock_repo.return_value
     mock_repo_instance.find_all.return_value = []
 
@@ -28,7 +28,7 @@ def test_create_product_success(mocker):
     Testa o endpoint POST /api/products criando um produto com sucesso.
     """
     # Patch na referência usada no controlador
-    mock_repo = mocker.patch("app.adapters.driver.controllers.product_controller.ProductRepository")
+    mock_repo = mocker.patch("app.adapters.driver.controllers.product.product_controller.ProductRepository")
     mock_repo_instance = mock_repo.return_value
 
     # Use a entidade de domínio real para simular o retorno do repositório
@@ -65,7 +65,7 @@ def test_create_product_negative_price(mocker):
     Testa o endpoint POST /api/products quando o preço é negativo,
     esperando erro 400.
     """
-    mock_repo = mocker.patch("app.adapters.driver.controllers.product_controller.ProductRepository")
+    mock_repo = mocker.patch("app.adapters.driver.controllers.product.product_controller.ProductRepository")
     mock_repo_instance = mock_repo.return_value
 
     # O service lançaria ValueError, simulamos isso
@@ -92,7 +92,7 @@ def test_update_product_not_found(mocker):
     """
     Testa o endpoint PUT /api/products/{product_id} quando o produto não é encontrado.
     """
-    mock_repo = mocker.patch("app.adapters.driver.controllers.product_controller.ProductRepository")
+    mock_repo = mocker.patch("app.adapters.driver.controllers.product.product_controller.ProductRepository")
     mock_repo_instance = mock_repo.return_value
 
     # Simula que o service lança ValueError("Product not found")
@@ -118,7 +118,7 @@ def test_delete_product_success(mocker):
     """
     Testa o endpoint DELETE /api/products/{product_id} com sucesso.
     """
-    mock_repo = mocker.patch("app.adapters.driver.controllers.product_controller.ProductRepository")
+    mock_repo = mocker.patch("app.adapters.driver.controllers.product.product_controller.ProductRepository")
     mock_repo_instance = mock_repo.return_value
 
     # Simula que o service não levanta erro (produtos existe)
