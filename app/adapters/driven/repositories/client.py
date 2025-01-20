@@ -151,6 +151,7 @@ class ClientRepository(ClientRepositoryPort):
     def find_coupons_by_client_id(self, client_id: int):
         """
         Retorna todos os cupons ativos e não expirados vinculados a um cliente.
+        Considera a flag VIP para restringir os cupons a certos clientes.
 
         :param client_id: ID do cliente
         :return: Lista de cupons não expirados e ativos
@@ -159,13 +160,18 @@ class ClientRepository(ClientRepositoryPort):
 
         coupons = (
             self.db_session.query(CouponModel)
-            .join(ClientCouponAssociationModel, CouponModel.id == ClientCouponAssociationModel.coupon_id)
+            .outerjoin(ClientCouponAssociationModel, CouponModel.id == ClientCouponAssociationModel.coupon_id)
             .filter(
-                ClientCouponAssociationModel.client_id == client_id,
-                CouponModel.active == True,  # Cupons ativos
-                CouponModel.expires_at >= current_date  # Cupons não expirados
+                # Cupons ativos
+                CouponModel.active == True,
+                # Cupons não expirados
+                CouponModel.expires_at >= current_date,
+                # Se VIP, verificar associação com o cliente
+                ((CouponModel.vip == True) & (ClientCouponAssociationModel.client_id == client_id))
+                | (CouponModel.vip == False)  # Se não VIP, é para todos
             )
             .all()
         )
 
         return coupons
+

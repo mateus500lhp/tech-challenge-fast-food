@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Date
+from sqlalchemy import Column, Integer, String, Float, Date, Boolean
 from sqlalchemy.orm import relationship
 from app.adapters.driven.models.base_model import BaseModel
 
@@ -7,9 +7,11 @@ class CouponModel(BaseModel):
 
     id = Column(Integer, primary_key=True, index=True)
     hash = Column(String, unique=True)
+    descricao = Column(String)
     discount_percentage = Column(Float,default=0)
     max_discount = Column(Float,default=0)
     expires_at = Column(Date, nullable=True)
+    vip = Column(Boolean, nullable=True,default=False)
     clients_association = relationship("ClientCouponAssociationModel", back_populates="coupon")
     clients = relationship("ClientModel", secondary="client_coupons", back_populates="coupons")
 

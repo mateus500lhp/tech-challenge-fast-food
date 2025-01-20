@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from sqlalchemy.orm import Session
 
-from app.adapters.driver.controllers.client_schemas import (
+from app.adapters.driver.controllers.client.client_schemas import (
     ClientIn,
     ClientOut, ClientIdentifyOut, ClientUpdateIn, ClientsOut
 )
@@ -82,7 +82,7 @@ def list_clients(db: Session = Depends(get_db_session)):
         for client in clients
     ]
 
-@router.post(
+@router.get(
     "/clients/cpf/{cpf}",
     response_model=ClientIdentifyOut,
     status_code=status.HTTP_200_OK,
