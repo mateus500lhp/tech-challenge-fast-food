@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, ForeignKey, Enum
+from sqlalchemy import Column, Integer, ForeignKey, Enum, Float
 from sqlalchemy.orm import relationship
 
 from app.adapters.driven.models.base_model import BaseModel
 from app.shared.enums.order_status import OrderStatus
 from database import Base
+
 class OrderModel(BaseModel):
     __tablename__ = "orders"
 
@@ -11,6 +12,7 @@ class OrderModel(BaseModel):
     client_id = Column(Integer, ForeignKey("clients.id"), nullable=True)
     status = Column(Enum(OrderStatus), default=OrderStatus.RECEIVED)
     coupon_id = Column(Integer, ForeignKey("coupons.id"), nullable=True)
+    amount = Column(Float, nullable=False)
 
     client = relationship("ClientModel", back_populates="orders")
     items = relationship("OrderItemModel", back_populates="order")
