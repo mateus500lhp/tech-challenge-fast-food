@@ -9,6 +9,7 @@ class Order:
     id: Optional[int] = None
     client_id: Optional[int] = None
     status: OrderStatus = OrderStatus.RECEIVED
+    coupon_hash: Optional[str] = None
     coupon_id: Optional[int] = None
     items: List[OrderItem] = field(default_factory=list)
     amount: Optional[float] = 0.0

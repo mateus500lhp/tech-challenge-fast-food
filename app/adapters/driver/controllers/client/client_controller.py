@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 from sqlalchemy.orm import Session
-
 from app.adapters.driver.controllers.client.client_schemas import (
     ClientIn,
     ClientOut, ClientIdentifyOut, ClientUpdateIn, ClientsOut
