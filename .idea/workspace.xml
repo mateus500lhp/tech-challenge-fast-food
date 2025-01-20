@@ -4,23 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="apis de client">
-      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon_schemas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/domain/services/clients/identify_client_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/domain/services/clients/update_client_service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/shared/handles/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/shared/handles/jwt_user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/FastFood.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FastFood.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8e767eb0-be85-4dca-9bde-08695859988f" name="Changes" comment="fix apis de client, add jwt">
+      <change afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/coupon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon/coupon_controller.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon/coupon_schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/ports/coupon_repository_port.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/services/coupon/create_coupon_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/services/coupon/list_coupon_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/domain/services/coupon/update_coupon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driven/models/coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/models/coupon.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driven/repositories/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client_schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/entities/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/entities/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/ports/client_repository_port.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/ports/client_repository_port.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/services/clients/create_client_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/clients/create_client_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/domain/services/clients/list_client_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/clients/list_client_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client/client_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/client_schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/adapters/driver/controllers/client/client_schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/adapters/driver/controllers/coupon_schemas.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/entities/coupon.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/entities/coupon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/domain/services/clients/identify_client_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/domain/services/clients/identify_client_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/shared/handles/jwt_user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/shared/handles/jwt_user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,12 +63,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "FastAPI.FastFood.executor": "Debug",
+    "FastAPI.FastFood.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "client__services",
-    "last_opened_file_path": "C:/Users/luanl/PycharmProjects/tech-challenge-fast-food/app/domain/services/clients",
+    "git-widget-placeholder": "apis__cupom",
+    "last_opened_file_path": "C:/Users/luanl/PycharmProjects/tech-challenge-fast-food/app/domain/services/coupon",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -77,17 +80,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\services\clients" />
-      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\validates" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\services\coupon" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\enums" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\ports" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driven\repositories" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\domain\services\clients" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driver\controllers\client" />
+      <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\adapters\driver\controllers\coupon" />
       <recent name="C:\Users\luanl\PycharmProjects\tech-challenge-fast-food\app\shared\handles" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\repositories" />
       <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\models" />
-      <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\adapters\driven\repositories\products" />
-      <recent name="C:\Users\mateu\PycharmProjects\FastFood\app\domain\services\products" />
     </key>
   </component>
   <component name="RunManager">
@@ -125,7 +129,7 @@
       <workItem from="1736446642853" duration="1214000" />
       <workItem from="1736447877940" duration="9462000" />
       <workItem from="1736512749509" duration="5586000" />
-      <workItem from="1737297669606" duration="12641000" />
+      <workItem from="1737297669606" duration="26227000" />
     </task>
     <task id="LOCAL-00001" summary="Migrations adjusts">
       <option name="closed" value="true" />
@@ -151,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737257270120</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix apis de client, add jwt">
+      <option name="closed" value="true" />
+      <created>1737311109167</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737311109167</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +173,8 @@
     <MESSAGE value="Migrations adjusts" />
     <MESSAGE value="models" />
     <MESSAGE value="apis de client" />
-    <option name="LAST_COMMIT_MESSAGE" value="apis de client" />
+    <MESSAGE value="fix apis de client, add jwt" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix apis de client, add jwt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -171,16 +184,11 @@
           <line>56</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app/domain/ports/client_repository_port.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FastFood$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737222563102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/tech_challenge_fast_food$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737310754738" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/tech_challenge_fast_food$FastFood.coverage" NAME="FastFood Coverage Results" MODIFIED="1737332236111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

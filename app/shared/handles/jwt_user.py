@@ -1,7 +1,6 @@
 import jwt
 from datetime import datetime, timedelta
 from typing import Optional
-
 from jwt import ExpiredSignatureError, InvalidTokenError
 from passlib.context import CryptContext
 

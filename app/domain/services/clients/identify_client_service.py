@@ -54,17 +54,19 @@ class IdentifyClientService:
 
         # 5) Retornar os dados do cliente com os cupons e o JWT
         return {
-            "name": client.name,
-            "email": client.email,
-            "cpf": client.cpf,  # CPF formatado
-            "coupons": [
-                {
-                    "hash": coupon.hash,
-                    "discount_percentage": coupon.discount_percentage,
-                    "max_discount": coupon.max_discount,
-                    "expires_at": coupon.expires_at
-                }
-                for coupon in coupons
-            ],
+            # "name": client.name,
+            # "email": client.email,
+            # "cpf": client.cpf,
+            # "coupons": [
+            #     {
+            #         "hash": coupon.hash,
+            #         "discount_percentage": coupon.discount_percentage,
+            #         "max_discount": coupon.max_discount,
+            #         "expires_at": coupon.expires_at,
+            #         "descricao": coupon.descricao,
+            #         "vip": coupon.vip
+            #     }
+            #     for coupon in coupons
+            # ],
             "jwt": jwt_token
         }

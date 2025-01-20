@@ -1,9 +1,7 @@
 from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
-
-from app.adapters.driver.controllers.coupon_schemas import CouponOut
+from typing import Optional
 
 
 class ClientIn(BaseModel):
@@ -34,11 +32,11 @@ class ClientsOut(BaseModel):
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
 class ClientIdentifyOut(BaseModel):
-    name: str
-    email: str
-    cpf: str = Field(..., description="CPF formatado do cliente")
+    # name: str
+    # email: str
+    # cpf: str = Field(..., description="CPF formatado do cliente")
     jwt: str
-    coupons: List[CouponOut] = []
+    # coupons: List[CouponOut] = []
 
     class Config:
         orm_mode = True
