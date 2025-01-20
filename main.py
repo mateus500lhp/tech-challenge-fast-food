@@ -3,6 +3,12 @@ from app.adapters.driver.controllers.product.product_controller import router as
 from app.adapters.driver.controllers.client.client_controller import router as client_router
 from app.adapters.driver.controllers.coupon.coupon_controller import router as coupon_router
 from app.adapters.driver.controllers.order.order_controller import router as order_router
+from fastapi.security import OAuth2PasswordBearer, HTTPBearer
+from fastapi.openapi.models import HTTPBearer as HTTPBearerModel
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+bearer_scheme = HTTPBearer()
+
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Fast Food Self-Service")
