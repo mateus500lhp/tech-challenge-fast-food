@@ -57,3 +57,81 @@ class OrderRepository(OrderRepositoryPort):
             amount=order_model.amount,
             items=created_items,
         )
+
+    def find_by_id(self, order_id: int) -> Optional[Order]:
+        order_model = self.db_session.query(OrderModel).get(order_id)
+        if not order_model:
+            return None
+        return Order(
+                id=order_model.id,
+                client_id=order_model.client_id,
+                status=order_model.status,
+                coupon_id=order_model.coupon_id,
+                amount=order_model.amount,
+                items=[
+                    OrderItem(
+                        id=item.id,
+                        product_id=item.product_id,
+                        quantity=item.quantity,
+                        price=item.price,
+                        name=getattr(item.product, "name", "Unknown"),
+                    )
+                    for item in order_model.items
+                ]
+            )
+
+    def find_all(self) -> List[Order]:
+        order_models = self.db_session.query(OrderModel).all()
+
+        return [
+            Order(
+                id=order_model.id,
+                client_id=order_model.client_id,
+                status=order_model.status,
+                coupon_id=order_model.coupon_id,
+                amount=order_model.amount,
+                items=[
+                    OrderItem(
+                        id=item.id,
+                        product_id=item.product_id,
+                        quantity=item.quantity,
+                        price=item.price,
+                        name=getattr(item.product, "name", "Unknown"),
+                    )
+                    for item in order_model.items
+                ]
+            )
+            for order_model in order_models
+        ]
+
+    def find_by_status(self, status: str) -> List[Order]:
+        order_models = self.db_session.query(OrderModel).filter(OrderModel.status == status).all()
+
+        return [
+            Order(
+                id=order_model.id,
+                client_id=order_model.client_id,
+                status=order_model.status,
+                coupon_id=order_model.coupon_id,
+                amount=order_model.amount,
+                items=[
+                    OrderItem(
+                        id=item.id,
+                        product_id=item.product_id,
+                        quantity=item.quantity,
+                        price=item.price,
+                        name=getattr(item.product, "name", "Unknown"),
+                    )
+                    for item in order_model.items
+                ]
+            )
+            for order_model in order_models
+        ]
+
+    def update(self, order: Order) -> Order:
+        """Atualiza um order existente."""
+        pass
+
+    def delete(self, order_id: int) -> None:
+        """Remove o order pelo ID."""
+        pass

@@ -12,8 +12,8 @@ class CouponModel(BaseModel):
     max_discount = Column(Float,default=0)
     expires_at = Column(Date, nullable=True)
     vip = Column(Boolean, nullable=True,default=False)
-    clients_association = relationship("ClientCouponAssociationModel", back_populates="coupon")
-    clients = relationship("ClientModel", secondary="client_coupons", back_populates="coupons")
+    clients_association = relationship("ClientCouponAssociationModel", back_populates="coupon", overlaps="clients")
+    clients = relationship("ClientModel", secondary="client_coupons", back_populates="coupons", overlaps="clients_association")
 
     def __repr__(self):
         return f"<CouponModel(code={self.hash}, discount_percentage={self.discount_percentage})>"
