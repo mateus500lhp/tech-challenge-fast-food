@@ -14,7 +14,8 @@ from app.adapters.driver.dependencias.auth import get_current_user
 from app.domain.entities.item import OrderItem
 from app.domain.entities.order import Order
 from app.domain.services.orders.create_order_service import CreateOrderService
-from app.domain.services.orders.list_order_service import ListOrdersService, ListOrdersByStatusService
+from app.domain.services.orders.list_order_service import ListOrdersService, ListOrdersByStatusService, \
+    GetOrderByIdService, ListOrdersByClientService
 from app.shared.enums.order_status import OrderStatus
 from database import get_db_session
 
@@ -72,7 +73,6 @@ def create_order(
 @router.get("/orders", response_model=List[OrderOut], status_code=200)
 def list_orders(
     db: Session = Depends(get_db_session),
-    user: Optional[dict] = Depends(get_current_user),
 ):
     repo = OrderRepository(db)
     use_case = ListOrdersService(repo)
@@ -99,16 +99,75 @@ def list_orders(
         for order in orders
     ]
 
+@router.get("/orders/{order_id}", response_model=OrderOut, status_code=200)
+def get_order_by_id(
+    order_id: int,
+    db: Session = Depends(get_db_session),
+):
+    order_repo = OrderRepository(db)
+    service = GetOrderByIdService(order_repo)
+
+    order = service.execute(order_id)
+
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    return OrderOut(
+        id=order.id,
+        client_id=order.client_id,
+        coupon_hash=order.coupon_id,
+        status=order.status,
+        items=[
+            OrderItemOut(
+                product_id=item.product_id,
+                name=item.name,
+                quantity=item.quantity,
+                price=item.price,
+            )
+            for item in order.items
+        ],
+        amount=order.amount,
+    )
+
 @router.get("/orders/status/{status}", response_model=List[OrderOut], status_code=200)
 def list_orders_by_status(
     status: OrderStatus,
     db: Session = Depends(get_db_session),
-    user: Optional[dict] = Depends(get_current_user),
 ):
     order_repo = OrderRepository(db)
     service = ListOrdersByStatusService(order_repo)
 
     orders = service.execute(status)
+
+    return [
+        OrderOut(
+            id=order.id,
+            client_id=order.client_id,
+            coupon_hash=order.coupon_id,
+            status=order.status,
+            items=[
+                OrderItemOut(
+                    product_id=item.product_id,
+                    name=item.name,
+                    quantity=item.quantity,
+                    price=item.price,
+                )
+                for item in order.items
+            ],
+            amount=order.amount,
+        )
+        for order in orders
+    ]
+
+@router.get("/orders/client/{client_id}", response_model=List[OrderOut], status_code=200)
+def list_orders_by_client(
+    client_id: int,
+    db: Session = Depends(get_db_session),
+):
+    order_repo = OrderRepository(db)
+    service = ListOrdersByClientService(order_repo)
+
+    orders = service.execute(client_id)
 
     return [
         OrderOut(

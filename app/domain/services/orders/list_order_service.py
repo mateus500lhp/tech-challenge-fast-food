@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from app.domain.entities.order import Order
 from app.domain.ports.order_repository_port import OrderRepositoryPort
@@ -12,6 +12,14 @@ class ListOrdersService:
         return self.order_repository.find_all()
 
 
+class GetOrderByIdService:
+    def __init__(self, order_repository: OrderRepositoryPort):
+        self.order_repository = order_repository
+
+    def execute(self, order_id: int) -> Optional[Order]:
+        return self.order_repository.find_by_id(order_id)
+
+
 class ListOrdersByStatusService:
     def __init__(self, order_repository: OrderRepositoryPort):
         self.order_repository = order_repository
@@ -19,3 +27,10 @@ class ListOrdersByStatusService:
     def execute(self, status: str) -> List[Order]:
         return self.order_repository.find_by_status(status)
 
+
+class ListOrdersByClientService:
+    def __init__(self, order_repository: OrderRepositoryPort):
+        self.order_repository = order_repository
+
+    def execute(self, client_id: int) -> List[Order]:
+        return self.order_repository.find_by_client(client_id)
