@@ -20,6 +20,24 @@ class CreateOrderService:
     def execute(self, order: Order) -> Order:
         amount = 0
 
+        existing_coupon = None
+        if order.coupon_hash:
+            if order.client_id is None:
+                raise ValueError(f"Para utilizar um cupom, é necessário que o cliente esteja autenticado"
+                                 f" e devidamente identificado.")
+            existing_coupon = self.coupon_repository.find_by_hash(order.coupon_hash)
+
+            if not existing_coupon:
+                raise ValueError("Cupom não encontrado.")
+
+            if not existing_coupon.active:
+                raise ValueError("O cupom informado não está ativo.")
+
+            if existing_coupon.expires_at and existing_coupon.expires_at <  date.today():
+                raise ValueError("O cupom informado já expirou.")
+
+
+
         for item in order.items:
             product = self.product_repository.find_by_id(item.product_id)
 
@@ -44,22 +62,7 @@ class CreateOrderService:
         # Define o valor total do pedido
         order.amount = amount
 
-        if order.coupon_hash:
-
-            if order.client_id is None:
-                raise ValueError(f"Para utilizar um cupom, é necessário que o cliente esteja autenticado"
-                                 f" e devidamente identificado.")
-            existing_coupon = self.coupon_repository.find_by_hash(order.coupon_hash)
-
-            if not existing_coupon:
-                raise ValueError("Cupom não encontrado.")
-
-            if not existing_coupon.active:
-                raise ValueError("O cupom informado não está ativo.")
-
-            if existing_coupon.expires_at and existing_coupon.expires_at <  date.today():
-                raise ValueError("O cupom informado já expirou.")
-
+        if order.coupon_hash and existing_coupon:
             discount = (order.amount * existing_coupon.discount_percentage) / 100
             discount = min(discount, existing_coupon.max_discount)
             order.amount -= discount

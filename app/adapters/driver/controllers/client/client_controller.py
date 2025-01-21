@@ -100,7 +100,7 @@ def list_clients(db: Session = Depends(get_db_session)):
 )
 def get_client_by_cpf(cpf: str, db: Session = Depends(get_db_session)):
     """
-    Busca um cliente pelo CPF, incluindo seus cupons ativos e não expirados.
+    Busca um cliente pelo CPF.
     """
     repository = ClientRepository(db)
     service = IdentifyClientService(repository)
