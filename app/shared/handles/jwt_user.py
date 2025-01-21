@@ -1,12 +1,16 @@
+import os
+
 import jwt
 from datetime import datetime, timedelta
 from typing import Optional
+from dotenv import load_dotenv
 from jwt import ExpiredSignatureError, InvalidTokenError
 from passlib.context import CryptContext
 
-SECRET_KEY = "your_secret_key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY", "your_secret_key")
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
