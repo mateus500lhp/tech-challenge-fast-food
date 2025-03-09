@@ -2,11 +2,11 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.adapters.driven.models import ProductModel
-from app.adapters.driven.repositories.product import ProductRepository
-from app.domain.entities.product import Product
+from app.adapters.gateways.product import ProductRepository
+from app.core.entities.product import Product
+from app.devices.db.models import ProductModel
 from app.shared.enums.categorys import CategoryEnum
-from database import Base
+from app.devices.db.connection import Base
 
 
 # Fixture para configurar uma base de dados SQLite em memória para cada teste

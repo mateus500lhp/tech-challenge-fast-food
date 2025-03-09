@@ -1,11 +1,12 @@
 import pytest
 from unittest.mock import MagicMock
-from app.domain.entities.product import Product
-from app.domain.services.products.create_product_service import CreateProductService
-from app.domain.services.products.update_product_service import UpdateProductService
-from app.domain.services.products.delete_product_service import DeleteProductService
-from app.domain.services.products.list_products_service import ListProductsService, ListProductsByCategoryService
-from app.domain.ports.products_repository_port import ProductRepositoryPort
+
+from app.core.entities.product import Product
+from app.core.ports.products_repository_port import ProductRepositoryPort
+from app.core.usecases.products.create_product_service import CreateProductService
+from app.core.usecases.products.delete_product_service import DeleteProductService
+from app.core.usecases.products.list_products_service import ListProductsService, ListProductsByCategoryService
+from app.core.usecases.products.update_product_service import UpdateProductService
 
 
 @pytest.fixture

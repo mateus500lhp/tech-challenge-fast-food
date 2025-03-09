@@ -1,0 +1,88 @@
+from datetime import date
+from app.core.entities.order import Order
+from app.core.entities.item import OrderItem
+from app.core.ports.coupon_repository_port import CouponRepositoryPort
+from app.core.ports.order_repository_port import OrderRepositoryPort
+from app.core.ports.products_repository_port import ProductRepositoryPort
+from app.core.schemas.order_schemas import OrderIn
+from app.shared.enums.order_status import OrderStatus
+
+
+class CreateOrderService:
+    def __init__(
+        self,
+        order_repository: OrderRepositoryPort,
+        product_repository: ProductRepositoryPort,
+        coupon_repository: CouponRepositoryPort
+    ):
+        self.order_repository = order_repository
+        self.product_repository = product_repository
+        self.coupon_repository = coupon_repository
+
+    def execute(self, order_in: OrderIn, client_id: int) -> Order:
+        """Cria um pedido a partir dos dados do `OrderIn`."""
+        order = Order(
+            client_id=client_id,
+            coupon_hash=order_in.coupon_hash,
+            status=OrderStatus.RECEIVED,
+            items=[
+                OrderItem(
+                    product_id=item.product_id,
+                    quantity=item.quantity,
+                )
+                for item in order_in.items
+            ],
+        )
+
+        # Validações e criação do pedido no repositório
+        return self._process_order(order)
+
+    def _process_order(self, order: Order) -> Order:
+        """Processa todas as validações e cálculos necessários para criar o pedido."""
+
+        existing_coupon = None
+        if order.coupon_hash:
+            existing_coupon = self._validate_coupon(order)
+
+        self._validate_stock(order)
+        self._apply_discount(order, existing_coupon)
+
+        created_order = self.order_repository.create(order)
+
+        # Atualiza os nomes dos itens no pedido retornado
+        for item in created_order.items:
+            product = self.product_repository.find_by_id(item.product_id)
+            item.name = product.name  # Adiciona o nome do produto
+
+        return created_order
+
+    def _validate_coupon(self, order: Order):
+        """Valida se o cupom é válido."""
+        coupon = self.coupon_repository.find_by_hash(order.coupon_hash)
+        if not coupon:
+            raise ValueError("Cupom não encontrado.")
+        if not coupon.active:
+            raise ValueError("O cupom informado não está ativo.")
+        if coupon.expires_at and coupon.expires_at < date.today():
+            raise ValueError("O cupom informado já expirou.")
+        return coupon
+
+    def _validate_stock(self, order: Order):
+        """Verifica se há estoque suficiente para cada item."""
+        for item in order.items:
+            product = self.product_repository.find_by_id(item.product_id)
+            if not product:
+                raise ValueError(f"Produto com ID {item.product_id} não encontrado.")
+            if product.quantity_available < item.quantity:
+                raise ValueError(f"Estoque insuficiente para o produto {product.name}.")
+
+            # Reduz o estoque do produto
+            product.quantity_available -= item.quantity
+            self.product_repository.update(product)
+
+    def _apply_discount(self, order: Order, coupon):
+        """Aplica o desconto do cupom ao valor total do pedido."""
+        if coupon:
+            discount = (order.amount * coupon.discount_percentage) / 100
+            discount = min(discount, coupon.max_discount)
+            order.amount -= discount

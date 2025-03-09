@@ -1,7 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.domain.entities.product import Product
+from app.core.entities.product import Product
+from app.core.usecases.products.create_product_service import CreateProductService
+from app.core.usecases.products.delete_product_service import DeleteProductService
+from app.core.usecases.products.update_product_service import UpdateProductService
 from app.shared.enums.categorys import CategoryEnum
 from main import app
 
@@ -69,7 +72,6 @@ def test_create_product_negative_price(mocker):
     mock_repo_instance = mock_repo.return_value
 
     # O service lançaria ValueError, simulamos isso
-    from app.domain.services.products.create_product_service import CreateProductService
     mocker.patch.object(CreateProductService, "execute", side_effect=ValueError("Price cannot be negative."))
 
     payload = {
@@ -96,7 +98,6 @@ def test_update_product_not_found(mocker):
     mock_repo_instance = mock_repo.return_value
 
     # Simula que o service lança ValueError("Product not found")
-    from app.domain.services.products.update_product_service import UpdateProductService
     mocker.patch.object(UpdateProductService, "execute", side_effect=ValueError("Product not found"))
 
     payload = {
@@ -122,7 +123,6 @@ def test_delete_product_success(mocker):
     mock_repo_instance = mock_repo.return_value
 
     # Simula que o service não levanta erro (produtos existe)
-    from app.domain.services.products.delete_product_service import DeleteProductService
     mocker.patch.object(DeleteProductService, "execute", return_value=None)
 
     response = client.delete("/api/products/1")
