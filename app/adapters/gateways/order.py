@@ -198,8 +198,36 @@ class OrderRepository(OrderRepositoryPort):
         ]
 
     def update(self, order: Order) -> Order:
-        """Atualiza um order existente."""
-        pass
+        # Busca o modelo do pedido no banco pelo ID
+        order_model = self.db_session.query(OrderModel).get(order.id)
+        if not order_model:
+            raise ValueError("Pedido não encontrado.")
+
+        # Atualiza o status do pedido
+        order_model.status = order.status
+
+        self.db_session.commit()
+        self.db_session.refresh(order_model)
+
+        updated_items = [
+            OrderItem(
+                id=item.id,
+                product_id=item.product_id,
+                quantity=item.quantity,
+                price=item.price,
+                name=getattr(item.product, "name", "Unknown"),
+            )
+            for item in order_model.items
+        ]
+
+        return Order(
+            id=order_model.id,
+            client_id=order_model.client_id,
+            status=order_model.status,
+            coupon_id=order_model.coupon_id,
+            amount=order_model.amount,
+            items=updated_items,
+        )
 
     def delete(self, order_id: int) -> None:
         """Remove o order pelo ID."""

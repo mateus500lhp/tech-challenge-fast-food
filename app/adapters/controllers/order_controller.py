@@ -11,6 +11,7 @@ from app.core.schemas.order_schemas import OrderIn, OrderOut
 from app.core.usecases.orders.create_order_service import CreateOrderService
 from app.core.usecases.orders.list_order_service import ListOrdersService, GetOrderByIdService, \
     ListOrdersByStatusService, ListOrdersByClientService
+from app.core.usecases.orders.update_order_service import UpdateOrderStatusService
 from app.devices.db.connection import get_db_session
 from app.shared.enums.order_status import OrderStatus
 
@@ -64,3 +65,17 @@ def list_orders_by_client(client_id: int, db: Session = Depends(get_db_session))
     """Lista pedidos de um cliente específico"""
     service = ListOrdersByClientService(OrderRepository(db))
     return OrderPresenter.present_list(service.execute(client_id))
+
+
+@router.patch("/orders/{order_id}/status", response_model=OrderOut)
+def update_order_status(
+    order_id: int,
+    new_status: OrderStatus,
+    db: Session = Depends(get_db_session)
+):
+    service = UpdateOrderStatusService(OrderRepository(db))
+    try:
+        updated_order = service.execute(order_id, new_status)
+        return OrderPresenter.present(updated_order)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
