@@ -9,7 +9,7 @@ class ListOrdersService:
         self.order_repository = order_repository
 
     def execute(self) -> List[Order]:
-        return self.order_repository.find_all()
+        return self.order_repository.find_active_sorted_orders()
 
 class GetOrderByIdService:
     def __init__(self, order_repository: OrderRepositoryPort):

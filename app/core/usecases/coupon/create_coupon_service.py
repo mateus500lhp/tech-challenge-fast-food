@@ -1,6 +1,8 @@
 from datetime import date
 from app.core.entities.coupon import Coupon
 from app.core.ports.coupon_repository_port import CouponRepositoryPort
+from app.core.schemas.coupon_schemas import CouponIn
+
 
 class CreateCouponService:
     def __init__(self, coupon_repository: CouponRepositoryPort):
@@ -38,9 +40,20 @@ class CreateCouponService:
         if expires_at < date.today():
             raise ValueError("A data de expiração deve ser maior ou igual à data atual.")
 
-    def execute(self, coupon: Coupon) -> Coupon:
-        """
-        Cria um novo cupom após validações.
-        """
+    def execute(self, coupon_data: CouponIn) -> Coupon:
+        # Converte os dados de entrada para a entidade de domínio Coupon
+        coupon = Coupon(
+            id=None,  # id será gerado pelo banco de dados
+            hash=coupon_data.hash,
+            descricao=coupon_data.descricao,
+            discount_percentage=coupon_data.discount_percentage,
+            max_discount=coupon_data.max_discount,
+            expires_at=coupon_data.expires_at,
+            active=True
+        )
+
+        # Realiza todas as validações necessárias
         self.validate_coupon(coupon)
+
+        # Cria e retorna o cupom no repositório
         return self.coupon_repository.create(coupon)

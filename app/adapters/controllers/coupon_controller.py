@@ -18,7 +18,7 @@ router = APIRouter()
 def create_coupon(coupon_in: CouponIn, db: Session = Depends(get_db_session)):
     service = CreateCouponService(CouponRepository(db))
     try:
-        coupon = service.execute(Coupon(**coupon_in.dict()))
+        coupon = service.execute(coupon_in)
         return CouponPresenter.present(coupon)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

@@ -1,3 +1,4 @@
+from sqlalchemy import case, asc
 from sqlalchemy.orm import Session
 from typing import Optional, List
 
@@ -5,6 +6,7 @@ from app.core.entities.item import OrderItem
 from app.core.entities.order import Order
 from app.core.ports.order_repository_port import OrderRepositoryPort
 from app.devices.db.models import OrderModel, OrderItemModel
+from app.shared.enums.order_status import OrderStatus
 
 
 class OrderRepository(OrderRepositoryPort):
@@ -132,6 +134,47 @@ class OrderRepository(OrderRepositoryPort):
 
     def find_by_client(self, client_id: int) -> List[Order]:
         order_models = self.db_session.query(OrderModel).filter(OrderModel.client_id == client_id).all()
+
+        return [
+            Order(
+                id=order_model.id,
+                client_id=order_model.client_id,
+                status=order_model.status,
+                coupon_id=order_model.coupon_id,
+                amount=order_model.amount,
+                items=[
+                    OrderItem(
+                        id=item.id,
+                        product_id=item.product_id,
+                        quantity=item.quantity,
+                        price=item.price,
+                        name=getattr(item.product, "name", "Unknown"),
+                    )
+                    for item in order_model.items
+                ]
+            )
+            for order_model in order_models
+        ]
+
+    def find_active_sorted_orders(self) -> List[Order]:
+        """
+        Retorna os pedidos que não estão 'Finalizados' e ordena:
+         1. Pronto > Em Preparação > Recebido;
+         2. Pedidos mais antigos (pelo id) primeiro.
+        """
+        status_priority = case(
+            (OrderModel.status == OrderStatus.READY, 1),
+            (OrderModel.status == OrderStatus.IN_PROGRESS, 2),
+            (OrderModel.status == OrderStatus.RECEIVED, 3),
+            else_=9999
+        )
+
+        order_models = (
+            self.db_session.query(OrderModel)
+            .filter(OrderModel.status != OrderStatus.COMPLETED)
+            .order_by(status_priority, asc(OrderModel.id))
+            .all()
+        )
 
         return [
             Order(

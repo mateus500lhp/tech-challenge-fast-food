@@ -34,17 +34,22 @@ class CreateOrderService:
             ],
         )
 
-        # Validações e criação do pedido no repositório
+        # Validações, cálculos e criação do pedido no repositório
         return self._process_order(order)
 
     def _process_order(self, order: Order) -> Order:
-        """Processa todas as validações e cálculos necessários para criar o pedido."""
-
+        """Processa todas as validações, cálculos e a criação do pedido."""
         existing_coupon = None
         if order.coupon_hash:
             existing_coupon = self._validate_coupon(order)
 
+        # Primeiro, calcula o valor total do pedido e atualiza os itens
+        self._calculate_amount(order)
+
+        # Em seguida, valida o estoque e atualiza a quantidade disponível
         self._validate_stock(order)
+
+        # Aplica desconto, se houver cupom válido
         self._apply_discount(order, existing_coupon)
 
         created_order = self.order_repository.create(order)
@@ -67,8 +72,21 @@ class CreateOrderService:
             raise ValueError("O cupom informado já expirou.")
         return coupon
 
+    def _calculate_amount(self, order: Order):
+        """Calcula o valor total do pedido e atualiza os preços dos itens."""
+        total = 0
+        for item in order.items:
+            product = self.product_repository.find_by_id(item.product_id)
+            if not product:
+                raise ValueError(f"Produto com ID {item.product_id} não encontrado.")
+            # Calcula o preço do item e atualiza o nome
+            item.price = product.price * item.quantity
+            item.name = product.name
+            total += item.price
+        order.amount = total
+
     def _validate_stock(self, order: Order):
-        """Verifica se há estoque suficiente para cada item."""
+        """Verifica se há estoque suficiente para cada item e atualiza o estoque."""
         for item in order.items:
             product = self.product_repository.find_by_id(item.product_id)
             if not product:
@@ -81,7 +99,7 @@ class CreateOrderService:
             self.product_repository.update(product)
 
     def _apply_discount(self, order: Order, coupon):
-        """Aplica o desconto do cupom ao valor total do pedido."""
+        """Aplica o desconto do cupom ao valor total do pedido, se aplicável."""
         if coupon:
             discount = (order.amount * coupon.discount_percentage) / 100
             discount = min(discount, coupon.max_discount)
