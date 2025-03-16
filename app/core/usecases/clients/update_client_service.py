@@ -53,14 +53,13 @@ class UpdateClientService:
         :return: Cliente atualizado.
         """
 
-        # ✅ Se `updates` for um dicionário, converte para `ClientUpdateIn`
         if isinstance(updates, dict):
             updates = ClientUpdateIn(**updates)
 
         updates_dict = updates.dict(exclude_unset=True)
         self.validate_updates(updates_dict)
 
-        # 1) Buscar cliente existente pelo CPF
+
         clean_cpf = self.normalize_and_validate_cpf(cpf)
         existing_client = self.client_repository.find_by_cpf(clean_cpf)
         if not existing_client:

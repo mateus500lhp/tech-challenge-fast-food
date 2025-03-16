@@ -9,15 +9,15 @@ class CreateClientService:
     def __init__(self, client_repository: ClientRepositoryPort):
         self.client_repository = client_repository
 
-    @staticmethod
-    def normalize_and_validate_cpf(cpf: str) -> str:
-        """
-        Remove caracteres não numéricos do CPF e valida o formato.
-        """
-        clean_cpf = "".join(c for c in cpf if c.isdigit())
-        if not is_cpf_valid(clean_cpf):
-            raise ValueError("CPF inválido.")
-        return clean_cpf
+    # @staticmethod
+    # def normalize_and_validate_cpf(cpf: str) -> str:
+    #     """
+    #     Remove caracteres não numéricos do CPF e valida o formato.
+    #     """
+    #     clean_cpf = "".join(c for c in cpf if c.isdigit())
+    #     if not is_cpf_valid(clean_cpf):
+    #         raise ValueError("CPF inválido.")
+    #     return clean_cpf
 
     def validate_unique_fields(self, cpf: str, email: EmailStr):
         """
@@ -35,21 +35,14 @@ class CreateClientService:
         Se ocorrer qualquer problema, lança ValueError com a mensagem adequada.
         """
 
-        # 1) Normalizar e validar CPF
-        clean_cpf = self.normalize_and_validate_cpf(client_data.cpf)
-
-        # 2) Validar unicidade do CPF e e-mail
-        self.validate_unique_fields(clean_cpf, client_data.email)
-
-        # 3) Criar entidade de domínio `Client`
         client = Client(
             id=None,
             name=client_data.name,
             email=client_data.email,
-            cpf=clean_cpf,  # CPF sem formatação
+            cpf=client_data.cpf,  # CPF sem formatação
             password=client_data.password,
             active=True
         )
 
-        # 4) Criar no repositório
+        self.validate_unique_fields(client.cpf, client_data.email)
         return self.client_repository.create(client)

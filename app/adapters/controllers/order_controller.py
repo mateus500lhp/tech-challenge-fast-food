@@ -5,13 +5,17 @@ from typing import List, Optional
 from app.adapters.dependencies.auth import get_current_user
 from app.adapters.gateways.coupon import CouponRepository
 from app.adapters.gateways.order import OrderRepository
+from app.adapters.gateways.payment import PaymentRepository
 from app.adapters.gateways.product import ProductRepository
 from app.adapters.presenters.order.order_presenter import OrderPresenter
 from app.core.schemas.order_schemas import OrderIn, OrderOut
+from app.core.schemas.payment_schemas import PaymentStatusResponse
 from app.core.usecases.orders.create_order_service import CreateOrderService
 from app.core.usecases.orders.list_order_service import ListOrdersService, GetOrderByIdService, \
     ListOrdersByStatusService, ListOrdersByClientService
 from app.core.usecases.orders.update_order_service import UpdateOrderStatusService
+from app.core.usecases.payment.create_payment_service import PaymentService
+from app.core.usecases.payment.get_payment_status_service import GetPaymentStatusService
 from app.devices.db.connection import get_db_session
 from app.shared.enums.order_status import OrderStatus
 
@@ -24,17 +28,16 @@ def create_order(
     user: Optional[dict] = Depends(get_current_user)
 ):
     """Cria um novo pedido"""
-
-    if user is None:
-        raise HTTPException(status_code=400, detail="Usuário não autenticado.")
-
     order_repo = OrderRepository(db)
     product_repo = ProductRepository(db)
     coupon_repo = CouponRepository(db)
+    payment_repo = PaymentRepository(db)
     service = CreateOrderService(order_repo, product_repo, coupon_repo)
-
+    payment_service = PaymentService(payment_repo)
+    client_id = None if user is None else user["user_id"]
     try:
-        order = service.execute(order_in, client_id=user["user_id"])
+        order = service.execute(order_in, client_id=client_id)
+        _ = payment_service.execute(order)
         return OrderPresenter.present(order)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -79,3 +82,23 @@ def update_order_status(
         return OrderPresenter.present(updated_order)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/orders/{order_id}/payment_status")
+def get_payment_status(order_id: int, db: Session = Depends(get_db_session)):
+    """
+    Retorna o status de pagamento do pedido informado.
+    """
+    payment_repo = PaymentRepository(db)
+    service = GetPaymentStatusService(payment_repo)
+    try:
+        payment = service.execute(order_id)
+        return PaymentStatusResponse(
+            order_id=payment.order_id,
+            payment_status=payment.status,
+            qr_code=payment.qr_code,
+            amount=payment.amount,
+            payment_date=payment.payment_date,
+            description=payment.description,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

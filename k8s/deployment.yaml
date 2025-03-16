@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-food-app
+  labels:
+    app: fast-food
+spec:
+  replicas: 2  # Número inicial de réplicas
+  selector:
+    matchLabels:
+      app: fast-food
+  template:
+    metadata:
+      labels:
+        app: fast-food
+    spec:
+      containers:
+        - name: fast-food-container
+          image: luanliduario/fast-food:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: fast-food-config
+            - secretRef:
+                name: fast-food-secrets
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
