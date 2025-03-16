@@ -15,10 +15,11 @@ spec:
         app: fast-food
     spec:
       containers:
-        - name: fast-food-container
+        - name: fastfood-web
           image: luanliduario/fast-food:latest
           ports:
             - containerPort: 8000
+          command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
           envFrom:
             - configMapRef:
                 name: fast-food-config

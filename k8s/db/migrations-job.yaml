@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: fast-food-migrations
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrations
+          image: luanliduario/fast-food:latest
+          command: ["sh", "-c", "alembic upgrade head"]
+          envFrom:
+            - configMapRef:
+                name: fast-food-config
+            - secretRef:
+                name: fast-food-secrets
+      restartPolicy: OnFailure
+  backoffLimit: 4

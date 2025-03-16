@@ -3,5 +3,8 @@ kind: ConfigMap
 metadata:
   name: fast-food-config
 data:
-  APP_SETTING: "valor-config"
-  LOG_LEVEL: "info"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME: "fastfood"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
