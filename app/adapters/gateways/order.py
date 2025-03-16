@@ -62,7 +62,12 @@ class OrderRepository(OrderRepositoryPort):
         )
 
     def find_by_id(self, order_id: int) -> Optional[Order]:
-        order_model = self.db_session.query(OrderModel).get(order_id)
+        order_model = (
+            self.db_session.query(OrderModel)
+            .filter(OrderModel.id == order_id)
+            .filter(OrderModel.active == True)
+            .first()
+        )
         if not order_model:
             return None
 
@@ -85,7 +90,11 @@ class OrderRepository(OrderRepositoryPort):
         )
 
     def find_all(self) -> List[Order]:
-        order_models = self.db_session.query(OrderModel).all()
+        order_models = (
+            self.db_session.query(OrderModel)
+            .filter(OrderModel.active == True)
+            .all()
+        )
 
         return [
             Order(
@@ -109,7 +118,12 @@ class OrderRepository(OrderRepositoryPort):
         ]
 
     def find_by_status(self, status: str) -> List[Order]:
-        order_models = self.db_session.query(OrderModel).filter(OrderModel.status == status).all()
+        order_models = (
+            self.db_session.query(OrderModel)
+            .filter(OrderModel.status == status)
+            .filter(OrderModel.active == True)
+            .all()
+        )
 
         return [
             Order(
@@ -133,7 +147,12 @@ class OrderRepository(OrderRepositoryPort):
         ]
 
     def find_by_client(self, client_id: int) -> List[Order]:
-        order_models = self.db_session.query(OrderModel).filter(OrderModel.client_id == client_id).all()
+        order_models = (
+            self.db_session.query(OrderModel)
+            .filter(OrderModel.client_id == client_id)
+            .filter(OrderModel.active == True)
+            .all()
+        )
 
         return [
             Order(
@@ -172,6 +191,7 @@ class OrderRepository(OrderRepositoryPort):
         order_models = (
             self.db_session.query(OrderModel)
             .filter(OrderModel.status != OrderStatus.COMPLETED)
+            .filter(OrderModel.active == True)
             .order_by(status_priority, asc(OrderModel.id))
             .all()
         )

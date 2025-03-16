@@ -20,6 +20,8 @@ class CreateOrderService:
 
     def execute(self, order_in: OrderIn, client_id: int) -> Order:
         """Cria um pedido a partir dos dados do `OrderIn`."""
+        if not order_in.items or len(order_in.items) == 0:
+            raise ValueError("O pedido deve conter pelo menos um item.")
         order = Order(
             client_id=client_id,
             coupon_hash=order_in.coupon_hash,

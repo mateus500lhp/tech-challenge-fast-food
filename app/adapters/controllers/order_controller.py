@@ -76,7 +76,7 @@ def update_order_status(
     new_status: OrderStatus,
     db: Session = Depends(get_db_session)
 ):
-    service = UpdateOrderStatusService(OrderRepository(db))
+    service = UpdateOrderStatusService(OrderRepository(db),PaymentRepository(db))
     try:
         updated_order = service.execute(order_id, new_status)
         return OrderPresenter.present(updated_order)
