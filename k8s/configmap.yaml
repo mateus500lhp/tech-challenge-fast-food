@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fast-food-config
+data:
+  DB_HOST: "host.docker.internal"
+  DB_PORT: "5432"
+  DB_NAME: "fastfood"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"
