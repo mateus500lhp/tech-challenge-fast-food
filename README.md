@@ -226,15 +226,10 @@ Este README cobre:
 3. **Como rodar localmente** via Docker Compose, que é a forma obrigatória para facilitar o desenvolvimento.  
 4. **Gerenciamento de migrações** de banco de dados via Alembic.  
 5. **Exemplo básico de deployment no Kubernetes**, caso opte por levar o projeto para um ambiente mais escalável.  
+6. **Documentação**,  documentação Swagger estará em /docs.
 
 Ao seguir esses passos, você terá o sistema de autoatendimento de Fast Food rodando em contêineres Docker, pronto para evoluir e atender às demandas do desafio – com a possibilidade de escalar em um cluster Kubernetes quando for necessário.
 
 ---
-
-**Sugestões de melhorias futuras**  
-- Implementar autenticação e autorização mais robustas (JWT).  
-- Criar uma camada de frontend para melhorar a experiência do cliente.  
-- Adicionar observabilidade (logs centralizados, métricas, tracing).  
-- Configurar CI/CD (GitHub Actions, GitLab CI, etc.) para build e deploy automatizados.  
 
 ---
