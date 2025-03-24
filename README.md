@@ -219,7 +219,7 @@ DB_NAME=fastfood
 
 ## 7. Conclusão
 
-Este README cobre:
+Entrega:
 
 1. **Requisitos de Negócio** e como o sistema de autoatendimento resolve o problema de confusão e ineficiência em pedidos.  
 2. **Desenho de Arquitetura** com Docker Desktop Kubernetes para escalabilidade, usando FastAPI e PostgreSQL.  
@@ -227,6 +227,7 @@ Este README cobre:
 4. **Gerenciamento de migrações** de banco de dados via Alembic.  
 5. **Exemplo básico de deployment no Kubernetes**, caso opte por levar o projeto para um ambiente mais escalável.  
 6. **Documentação**,  documentação Swagger estará em /docs.
+7**Video no youtube:**,  https://youtu.be/VRBMrljbDl4
 
 Ao seguir esses passos, você terá o sistema de autoatendimento de Fast Food rodando em contêineres Docker, pronto para evoluir e atender às demandas do desafio – com a possibilidade de escalar em um cluster Kubernetes quando for necessário.
 
