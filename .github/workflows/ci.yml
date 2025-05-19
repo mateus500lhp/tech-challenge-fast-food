@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, master-clean-code ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, master-clean-code ]
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [ "3.12" ]  # versões de Python desejadas
+        python-version: [ "3.12" ]
 
     steps:
       - name: Checkout do repositório
