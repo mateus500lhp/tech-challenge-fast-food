@@ -10,7 +10,7 @@ class BaseUserModel(BaseModel):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     cpf = Column(String(11), unique=True, nullable=False)
-    password = Column(String, nullable=False)
+    password = Column(String, nullable=True)
     user_type = Column(Enum(UserType), nullable=False)
     __mapper_args__ = {
         "polymorphic_on": user_type,

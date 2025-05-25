@@ -12,7 +12,7 @@ class Client:
     name: str
     email: str
     cpf: str
-    password: str
+    password: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     user_type: UserType = UserType.CLIENT
