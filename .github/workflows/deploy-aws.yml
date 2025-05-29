@@ -1,0 +1,63 @@
+name: Deploy AWS - FastFood App
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  CLUSTER_NAME: EKS-FIAP-V3
+  ECR_REPO_NAME: fastfood-app
+
+jobs:
+  deploy:
+    name: Deploy App para AWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Criar repositório ECR com Terraform
+        run: |
+          cd infra
+          terraform init
+          terraform apply -auto-approve
+
+      - name: Obter URL do repositório ECR
+        id: ecr
+        run: |
+          URL=$(aws ecr describe-repositories --repository-names $ECR_REPO_NAME --region $AWS_REGION --query 'repositories[0].repositoryUri' --output text)
+          echo "REPO_URL=$URL" >> $GITHUB_ENV
+
+      - name: Login no ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin $REPO_URL
+
+      - name: Build e Push da imagem Docker
+        run: |
+          docker build -t fastfood-app .
+          docker tag fastfood-app:latest $REPO_URL:latest
+          docker push $REPO_URL:latest
+
+      - name: Atualizar kubeconfig
+        run: |
+          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
+
+      - name: Aplicar configurações no Kubernetes
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/configmap.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/secrets.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/deployment.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/service.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/hpa.yaml
