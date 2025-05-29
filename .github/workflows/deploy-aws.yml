@@ -1,4 +1,4 @@
-name: Deploy AWS Production - FastFoodApp
+name: Deploy AWS - FastFood App
 
 on:
   push:
@@ -7,20 +7,19 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  CLUSTER_NAME: EKS-FIAP
+  CLUSTER_NAME: EKS-FIAP-V3
   ECR_REPO_NAME: fastfood-app
-  REPO_URL: 759212231558.dkr.ecr.us-east-1.amazonaws.com/fastfood-app
 
 jobs:
   deploy:
-    name: Build, Push & Deploy App
+    name: Deploy App para AWS
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout do repositório
         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
+      - name: Configurar credenciais da AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -28,46 +27,37 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Instalar Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.7
-
-      - name: Inicializar Terraform
+      - name: Criar repositório ECR com Terraform
         run: |
           cd infra
           terraform init
-
-      - name: Aplicar Terraform
-        run: |
-          cd infra
           terraform apply -auto-approve
+
+      - name: Obter URL do repositório ECR
+        id: ecr
+        run: |
+          URL=$(aws ecr describe-repositories --repository-names $ECR_REPO_NAME --region $AWS_REGION --query 'repositories[0].repositoryUri' --output text)
+          echo "REPO_URL=$URL" >> $GITHUB_ENV
 
       - name: Login no ECR
         run: |
-          aws ecr get-login-password \
-            --region ${{ env.AWS_REGION }} | \
-            docker login \
-              --username AWS \
-              --password-stdin \
-              ${{ env.REPO_URL }}
+          aws ecr get-login-password --region $AWS_REGION | \
+          docker login --username AWS --password-stdin $REPO_URL
 
-      - name: Build e Push da Imagem
+      - name: Build e Push da imagem Docker
         run: |
-          docker build -t ${{ env.ECR_REPO_NAME }} .
-          docker tag ${{ env.ECR_REPO_NAME }}:latest ${{ env.REPO_URL }}:latest
-          docker push ${{ env.REPO_URL }}:latest
+          docker build -t fastfood-app .
+          docker tag fastfood-app:latest $REPO_URL:latest
+          docker push $REPO_URL:latest
 
       - name: Atualizar kubeconfig
         run: |
-          aws eks update-kubeconfig \
-            --name ${{ env.CLUSTER_NAME }} \
-            --region ${{ env.AWS_REGION }}
+          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
 
-      - name: Aplicar Manifestos K8s
+      - name: Aplicar configurações no Kubernetes
         run: |
-          kubectl apply -f k8s/configmap.yaml
-          kubectl apply -f k8s/secrets.yaml
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
-          kubectl apply -f k8s/hpa.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/configmap.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/secrets.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/deployment.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/service.yaml
+          kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/hpa.yaml
