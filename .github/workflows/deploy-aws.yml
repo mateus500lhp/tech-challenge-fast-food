@@ -38,10 +38,8 @@ jobs:
           terraform init
           terraform apply -auto-approve
 
-      - name: Instalar Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v3
 
       - name: Obter URL do repositório ECR
         id: ecr
@@ -64,7 +62,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
 
-      - name: Aplicar configura��es no Kubernetes
+      - name: Aplicar configurações no Kubernetes
         run: |
           kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/configmap.yaml
           kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/secrets.yaml
