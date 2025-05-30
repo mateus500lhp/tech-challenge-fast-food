@@ -27,11 +27,21 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
       - name: Criar repositório ECR com Terraform
         run: |
           cd infra
           terraform init
           terraform apply -auto-approve
+
+      - name: Instalar Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
 
       - name: Obter URL do repositório ECR
         id: ecr
@@ -46,15 +56,15 @@ jobs:
 
       - name: Build e Push da imagem Docker
         run: |
-          docker build -t fastfood-app .
-          docker tag fastfood-app:latest $REPO_URL:latest
+          docker build -t $ECR_REPO_NAME .
+          docker tag $ECR_REPO_NAME:latest $REPO_URL:latest
           docker push $REPO_URL:latest
 
       - name: Atualizar kubeconfig
         run: |
           aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
 
-      - name: Aplicar configurações no Kubernetes
+      - name: Aplicar configura��es no Kubernetes
         run: |
           kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/configmap.yaml
           kubectl apply -f https://raw.githubusercontent.com/LuanLiduario/tech-challenge-k8s-terraform/main/k8s/secrets.yaml
