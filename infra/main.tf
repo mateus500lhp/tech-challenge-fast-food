@@ -6,4 +6,5 @@ resource "aws_ecr_repository" "app_repository" {
   }
 
   image_tag_mutability = "MUTABLE"
+
 }
